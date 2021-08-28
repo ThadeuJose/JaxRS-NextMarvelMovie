@@ -11,12 +11,10 @@ import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Invocation.Builder;
 import jakarta.ws.rs.client.WebTarget;
-import jakarta.ws.rs.core.HttpHeaders;
-import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 
-public class ApiTest {
+public class WrongPathTest {
 
     private HttpServer server;
     private WebTarget target;
@@ -32,7 +30,7 @@ public class ApiTest {
         
         target = c.target(Main.BASE_URI);
 
-        builder = target.path("api").request();
+        builder = target.path("api").queryParam("date", "2021-13-32").request();
         response = builder.get();
     }
 
@@ -43,11 +41,11 @@ public class ApiTest {
 
     @Test
     public void testIsStatusOk() {
-        assertEquals(Status.OK.getStatusCode(), response.getStatus());
-    }
-    
-    @Test
-    public void testIfReturnJSON() {
-        assertEquals(MediaType.APPLICATION_JSON, response.getHeaderString(HttpHeaders.CONTENT_TYPE));
-    }
+        assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
+    }   
+
+
 }
+
+
+
